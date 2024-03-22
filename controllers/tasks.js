@@ -29,7 +29,19 @@ const createTask = async (req, res) => {
 const updateTask = (req, res) => {
   res.end('Updating a single task');
 };
-const deleteTask = (req, res) => {
-  res.end('deleting a single task');
+const deleteTask = async (req, res) => {
+  try {
+    const { id: taskID } = req.params;
+    const task = await Task.findOneAndDelete({ _id: taskID });
+    if (!task) {
+      return res.status(404).json({ msg: `No task with the id: ${taskID}` });
+    }
+    res.status(200).json(task);
+    //since we don't need to send back deleted task we can do one of the following
+    // res.status(200).send()
+    // res.status(200).json({task:null,status:success})
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 module.exports = { getAllTasks, getTask, createTask, updateTask, deleteTask };
