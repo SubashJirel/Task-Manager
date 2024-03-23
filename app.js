@@ -2,6 +2,7 @@ require('./db/connect');
 const express = require('express');
 const app = express();
 const tasks = require('./routes/tasks');
+const notFound = require('./middleware/notFound');
 const connectDB = require('./db/connect');
 require('dotenv').config();
 
@@ -9,7 +10,11 @@ require('dotenv').config();
 app.use(express.static('./public'));
 app.use(express.json());
 
+// All the routes
 app.use('/api/v1/tasks', tasks);
+
+//Not found
+app.use(notFound);
 
 const port = 5000;
 
