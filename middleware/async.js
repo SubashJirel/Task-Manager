@@ -3,7 +3,7 @@ const asyncWrapper = (fn) => {
     try {
       await fn(req, res, next);
     } catch (error) {
-      next(error);
+      next(error); // with next we pass the error to the next middle ware i.e. erroHandler middleware
     }
   };
 };
